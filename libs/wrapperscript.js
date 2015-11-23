@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 var WrapperScript = function(source, proc) {
-  this.source = fs.readFileSync(source).split('\n').reverse();
+  this.source = fs.readFileSync(source, {encoding: 'utf8'}).split('\n').reverse();
   this.proc = proc;
 };
 
