@@ -1,6 +1,7 @@
 var spawn = require('child_process').exec,
     args = require('yargs').argv,
     through = require('through'),
+    async = require('async'),
     WrapperScript = require('./libs/wrapperscript.js');
 
 function usage() {
@@ -16,28 +17,41 @@ console.log('X');
 
 var proc = spawn(args._.join(' '));
 
-if(args.start) {
-  var startScript = new WrapperScript(args.start, proc);
+async.waterfall([
+  function(callback){
+    proc.on('close', function(code, sig) {
+      console.log('process closed with code ' + code + ' and signal ' + sig);
+    });
 
-  startScript.run();
-}
+    proc.on('error', function(err) {
+      console.log(err);
+    });
 
-proc.on('close', function(code, sig) {
-  console.log('process closed with code ' + code + ' and signal ' + sig);
-});
+    proc.on('disconnect', function() {
+      console.log('disconnected');
+    });
 
-proc.on('error', function(err) {
-  console.log(err);
-});
+    proc.on('exit', function(code, sig) {
+      console.log('process exited with code ' + code + ' and signal ' + sig);
+    });
 
-proc.on('disconnect', function() {
-  console.log('disconnected');
-});
+    proc.stdout.on('data', function(chunk) {
+      console.log(chunk);
+    });
 
-proc.on('exit', function(code, sig) {
-  console.log('process exited with code ' + code + ' and signal ' + sig);
-});
+    callback();
+  },
+  function(callback) {
+    if(args.start) {
+      var startScript = new WrapperScript(args.start, proc);
 
-proc.stdout.on('data', function(chunk) {
-  console.log(chunk);
+      startScript.run().then(callback).catch(callback);
+    } else {
+      callback();
+    }
+  }
+], function(err) {
+  if(err) {
+    console.err(err);
+  }
 });

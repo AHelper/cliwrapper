@@ -18,6 +18,8 @@
   "license": "MIT",
   "dependencies": {
     "through": "^2.3.8",
-    "yargs": "^3.30.0"
+    "yargs": "^3.30.0",
+    "async": "~1.5.0",
+    "promise": "~7.0.4"
   }
 }
