@@ -1,4 +1,4 @@
-var spawn = require('child_process').spawn,
+var spawn = require('child_process').exec,
     args = require('yargs').argv,
     through = require('through');
 
