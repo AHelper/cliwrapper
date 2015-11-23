@@ -15,8 +15,9 @@
     "wrapper"
   ],
   "author": "Collin Eggert",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
+    "through": "^2.3.8",
     "yargs": "^3.30.0"
   }
 }

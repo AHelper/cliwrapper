@@ -1,6 +1,7 @@
 var spawn = require('child_process').exec,
     args = require('yargs').argv,
-    through = require('through');
+    through = require('through'),
+    WrapperScript = require('libs/wrapperscript.js');
 
 function usage() {
   console.log('usage: cliwrapper [--start startscript.js] [--signal #,signalscript.js] command arguments...');
@@ -14,6 +15,12 @@ if(args._.length == 0) {
 console.log('X');
 
 var proc = spawn(args._.join(' '));
+
+if(args.start) {
+  var startScript = new WrapperScript(args.start, proc);
+
+  startScript.run();
+}
 
 proc.on('close', function(code, sig) {
   console.log('process closed with code ' + code + ' and signal ' + sig);
