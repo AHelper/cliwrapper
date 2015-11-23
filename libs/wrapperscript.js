@@ -29,3 +29,5 @@ WrapperScript.prototype.hdlr_sleep = function (line) {
   // body...
   console.log('Told to sleep');
 };
+
+module.exports = WrapperScript;
