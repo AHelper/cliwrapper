@@ -1,20 +1,17 @@
 var fs = require('fs'),
     Promise = require('promise');
 
-var WrapperScript = function(source, proc) {
+var WrapperScript = function(source, proc, hasStderr) {
   this.sourcePath = source;
   this.source = fs.readFileSync(source, {encoding: 'utf8'}).split('\n');
   this.proc = proc;
   this.pos = 0;
   this.outBuffer = "";
-  this.errBuffer = "";
   this.started = false;
+  this.hasStderr = hasStderr;
   var self = this;
   this.onOutDataCB = function(chunk) {
     self.onOutData(chunk);
-  };
-  this.onErrDataDB = function(chunk) {
-    self.onErrData(chunk);
   };
   this.bufferUpdated = function(){};
 };
@@ -23,7 +20,9 @@ WrapperScript.prototype.start = function() {
   if(!this.started) {
     this.started = true;
     this.proc.stdout.on('data', this.onOutDataCB);
-    this.proc.stderr.on('data', this.onErrDataDB);
+    if(this.hasStderr) {
+      this.proc.stderr.on('data', this.onOutDataDB);
+    }
   }
 };
 
@@ -31,17 +30,14 @@ WrapperScript.prototype.stop = function() {
   if(this.started) {
     this.started = false;
     this.proc.stdout.removeListener('data', this.onOutDataCB);
-    this.proc.stderr.removeListener('data', this.onErrDataCB);
+    if(this.hasStderr) {
+      this.proc.stderr.removeListener('data', this.onOutDataCB);
+    }
   }
 };
 
 WrapperScript.prototype.onOutData = function (chunk) {
   this.outBuffer += chunk;
-  this.bufferUpdated();
-};
-
-WrapperScript.prototype.onErrData = function (chunk) {
-  this.errBuffer += chunk;
   this.bufferUpdated();
 };
 
