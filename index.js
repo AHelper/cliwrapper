@@ -1,7 +1,7 @@
 var spawn = require('child_process').exec,
     args = require('yargs').argv,
     through = require('through'),
-    WrapperScript = require('libs/wrapperscript.js');
+    WrapperScript = require('./libs/wrapperscript.js');
 
 function usage() {
   console.log('usage: cliwrapper [--start startscript.js] [--signal #,signalscript.js] command arguments...');
