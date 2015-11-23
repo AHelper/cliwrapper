@@ -10,4 +10,4 @@ if(args._.length == 0) {
   usage();
 }
 
-console.log('X');
+console.log('X');0

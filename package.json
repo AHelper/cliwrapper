@@ -1,0 +1,22 @@
+{
+  "name": "cliwrapper",
+  "version": "1.0.0",
+  "description": "Wraps an interactive CLI application to translate signals into text for the application's stdin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.ahelper.me:servers/cliwrapper.git"
+  },
+  "keywords": [
+    "cli",
+    "wrapper"
+  ],
+  "author": "Collin Eggert",
+  "license": "ISC",
+  "dependencies": {
+    "yargs": "^3.30.0"
+  }
+}
