@@ -22,7 +22,7 @@ WrapperScript.prototype.step = function() {
 };
 
 WrapperScript.prototype.run = function() {
-  while(step());
+  while(this.step());
 };
 
 WrapperScript.prototype.hdlr_sleep = function (line) {
