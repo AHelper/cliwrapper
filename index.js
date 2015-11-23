@@ -1,5 +1,5 @@
 var child = require('child_process').spawn,
-    args = require('yargs'),
+    args = require('yargs').argv,
     through = require('through');
 
 function usage() {
