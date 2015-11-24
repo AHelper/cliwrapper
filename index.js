@@ -59,16 +59,17 @@ var NODEJS_SIGNALS = [
   "SIGIOT",
   "SIGBUS",
   "SIGFPE",
-  // "SIGKILL",
+  "SIGKILL",
   "SIGUSR1",
   "SIGSEGV",
   "SIGUSR2",
   "SIGPIPE",
   "SIGALRM",
+  "SIGTERM",
   "SIGCHLD",
   "SIGSTKFLT",
   "SIGCONT",
-  // "SIGSTOP",
+  "SIGSTOP",
   "SIGTSTP",
   "SIGBREAK",
   "SIGTTIN",
@@ -82,6 +83,7 @@ var NODEJS_SIGNALS = [
   "SIGIO",
   "SIGPOLL",
   "SIGLOST",
+  "SIGPWR",
   "SIGSYS"
 ];
 
@@ -137,16 +139,21 @@ args.signal.forEach(function(pair) {
       }
       signalScripts[parts[0]] = signalScript;
       // Subscribe to signal event
-      process.on(parts[0], function() {
-        debug('Starting signal script for ' + parts[0]);
-        signalScript.start();
-        signalScript.run().then(function() {
-          signalScript.stop();
-        }, function(err) {
-          debug(err);
-          signalScript.stop();
+      try {
+        process.on(parts[0], function() {
+          debug('Starting signal script for ' + parts[0]);
+          signalScript.start();
+          signalScript.run().then(function() {
+            signalScript.stop();
+          }, function(err) {
+            debug(err);
+            signalScript.stop();
+          });
         });
-      });
+      } catch(err) {
+        console.error("Could not add signal handler for signal " + parts[0]);
+        process.exit(254);
+      }
     }
   }
 });
@@ -154,10 +161,14 @@ args.signal.forEach(function(pair) {
 NODEJS_SIGNALS.forEach(function(sig) {
   if(!signalScripts[sig]) {
     debug("Adding handler for signal " + sig);
-    process.on(sig, function() {
-      debug('Passing signal ' + sig + ' to process');
-      proc.kill(sig);
-    });
+    try {
+      process.on(sig, function() {
+        debug('Passing signal ' + sig + ' to process');
+        proc.kill(sig);
+      });
+    } catch(err) {
+      debug("Could not add handler for signal " + sig);
+    }
   }
 });
 
