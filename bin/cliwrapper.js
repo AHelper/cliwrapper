@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var _pty = require('pty.js').spawn,
     through = require('through'),
     async = require('async'),
