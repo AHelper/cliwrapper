@@ -1,0 +1,44 @@
+Tue, 24 Nov 2015 02:46:38 GMT cliwrapper Running start script
+Tue, 24 Nov 2015 02:46:38 GMT WrapperScript.prototype.step Processing line 1: SLEEP 1
+Tue, 24 Nov 2015 02:46:38 GMT WrapperScript.prototype.hdlr_sleep Told to sleep for 1 seconds
+Tue, 24 Nov 2015 02:46:39 GMT WrapperScript.prototype.step Processing line 2: SENDKEY Escape
+Tue, 24 Nov 2015 02:46:39 GMT WrapperScript.prototype.hdlr_sendkey Want to send key "Escape"
+Tue, 24 Nov 2015 02:46:39 GMT WrapperScript.prototype.hdlr_sendkey 
+Tue, 24 Nov 2015 02:46:39 GMT WrapperScript.prototype.step Processing line 3: TYPE iThis\n is \n  a \ntest
+Tue, 24 Nov 2015 02:46:39 GMT WrapperScript.prototype.hdlr_type Want to type: iThis\n is \n  a \ntest
+Tue, 24 Nov 2015 02:46:39 GMT WrapperScript.prototype.step Processing line 4: SENDKEY Escape
+Tue, 24 Nov 2015 02:46:39 GMT WrapperScript.prototype.hdlr_sendkey Want to send key "Escape"
+Tue, 24 Nov 2015 02:46:39 GMT WrapperScript.prototype.hdlr_sendkey 
+Tue, 24 Nov 2015 02:46:39 GMT WrapperScript.prototype.step Processing line 5: TYPE :w test.txt\n
+Tue, 24 Nov 2015 02:46:39 GMT WrapperScript.prototype.hdlr_type Want to type: :w test.txt\n
+Tue, 24 Nov 2015 02:46:39 GMT WrapperScript.prototype.step Processing line 6: SLEEP 2
+Tue, 24 Nov 2015 02:46:39 GMT WrapperScript.prototype.hdlr_sleep Told to sleep for 2 seconds
+Tue, 24 Nov 2015 02:46:41 GMT WrapperScript.prototype.step Processing line 7: SENDKEY Up Left Left
+Tue, 24 Nov 2015 02:46:41 GMT WrapperScript.prototype.hdlr_sendkey Want to send key "Up"
+Tue, 24 Nov 2015 02:46:41 GMT WrapperScript.prototype.hdlr_sendkey OA
+Tue, 24 Nov 2015 02:46:41 GMT WrapperScript.prototype.hdlr_sendkey Want to send key "Left"
+Tue, 24 Nov 2015 02:46:41 GMT WrapperScript.prototype.hdlr_sendkey OD
+Tue, 24 Nov 2015 02:46:41 GMT WrapperScript.prototype.hdlr_sendkey Want to send key "Left"
+Tue, 24 Nov 2015 02:46:41 GMT WrapperScript.prototype.hdlr_sendkey OD
+Tue, 24 Nov 2015 02:46:41 GMT WrapperScript.prototype.step Processing line 8: SLEEP 2
+Tue, 24 Nov 2015 02:46:41 GMT WrapperScript.prototype.hdlr_sleep Told to sleep for 2 seconds
+Tue, 24 Nov 2015 02:46:43 GMT WrapperScript.prototype.step Processing line 9: TYPE a\b
+Tue, 24 Nov 2015 02:46:43 GMT WrapperScript.prototype.hdlr_type Want to type: a\b
+Tue, 24 Nov 2015 02:46:43 GMT WrapperScript.prototype.step Processing line 10: SLEEP 2
+Tue, 24 Nov 2015 02:46:43 GMT WrapperScript.prototype.hdlr_sleep Told to sleep for 2 seconds
+Tue, 24 Nov 2015 02:46:45 GMT WrapperScript.prototype.step Processing line 11: SENDKEY Right Space Esc
+Tue, 24 Nov 2015 02:46:45 GMT WrapperScript.prototype.hdlr_sendkey Want to send key "Right"
+Tue, 24 Nov 2015 02:46:45 GMT WrapperScript.prototype.hdlr_sendkey OC
+Tue, 24 Nov 2015 02:46:45 GMT WrapperScript.prototype.hdlr_sendkey Want to send key "Space"
+Tue, 24 Nov 2015 02:46:45 GMT WrapperScript.prototype.hdlr_sendkey  
+Tue, 24 Nov 2015 02:46:45 GMT WrapperScript.prototype.hdlr_sendkey Want to send key "Esc"
+Tue, 24 Nov 2015 02:46:45 GMT WrapperScript.prototype.hdlr_sendkey 
+Tue, 24 Nov 2015 02:46:45 GMT WrapperScript.prototype.step Processing line 12: SLEEP 2
+Tue, 24 Nov 2015 02:46:45 GMT WrapperScript.prototype.hdlr_sleep Told to sleep for 2 seconds
+Tue, 24 Nov 2015 02:46:47 GMT WrapperScript.prototype.step Processing line 13: TYPE :wq\n
+Tue, 24 Nov 2015 02:46:47 GMT WrapperScript.prototype.hdlr_type Want to type: :wq\n
+Tue, 24 Nov 2015 02:46:47 GMT WrapperScript.prototype.step Processing line 14: 
+Tue, 24 Nov 2015 02:46:47 GMT cliwrapper Done running start script
+Tue, 24 Nov 2015 02:46:47 GMT cliwrapper process closed
+Tue, 24 Nov 2015 02:46:47 GMT cliwrapper err: Error: read EIO
+Tue, 24 Nov 2015 02:46:47 GMT cliwrapper process exited with code 0 and signal 0

@@ -4,7 +4,8 @@ var _pty = require('pty.js').spawn,
     through = require('through'),
     async = require('async'),
     tty = require('tty'),
-    WrapperScript = require('./libs/wrapperscript.js');
+    debug = require('debug')('cliwrapper'),
+    WrapperScript = require('./lib/wrapperscript.js');
 
 // Slight wrapper
 pty = function(file, args) {
@@ -56,20 +57,20 @@ if(args.start) {
 }
 
 proc.on('close', function() {
-  console.log('process closed');
+  debug('process closed');
 });
 
 proc.on('error', function(err) {
-  console.log('err: ' + err);
+  debug('err: ' + err);
 });
 
 proc.on('disconnect', function() {
-  console.log('disconnected');
+  debug('disconnected');
 });
 
 proc.on('exit', function(code, sig) {
   sig = sig || 0
-  console.log('process exited with code ' + code + ' and signal ' + sig);
+  debug('process exited with code ' + code + ' and signal ' + sig);
   process.exit(code);
 });
 
@@ -78,6 +79,7 @@ proc.stdout.on('data', function(chunk) {
 });
 
 process.stdin.on('data', function(chunk) {
+  debug('STDIN:' + chunk);
   proc.stdin.write(chunk);
 })
 
@@ -88,11 +90,11 @@ if(!args.tty) {
 }
 
 if(args.start) {
-  console.log("Running start script");
+  debug("Running start script");
   var startScript = new WrapperScript(args.start, proc);
 
   startScript.run().then(function() {
-    console.log("Done running start script");
+    debug("Done running start script");
   });
 
   startScript.stop();

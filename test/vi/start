@@ -1,0 +1,13 @@
+SLEEP 1
+SENDKEY Escape
+TYPE iThis\n is \n  a \ntest
+SENDKEY Escape
+TYPE :w test.txt\n
+SLEEP 2
+SENDKEY Up Left Left
+SLEEP 2
+TYPE a\b
+SLEEP 2
+SENDKEY Right Space Esc
+SLEEP 2
+TYPE :wq\n
