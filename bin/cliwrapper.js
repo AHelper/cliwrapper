@@ -17,7 +17,7 @@ var _pty = require('pty.js').spawn,
       .argv,
     nopty = require('child_process').execFile,
     tty = require('tty'),
-    WrapperScript = require('./lib/wrapperscript.js');
+    WrapperScript = require('../lib/cliwrapper.js').WrapperScript;
 
 // Slight wrapper
 pty = function(file, args) {
