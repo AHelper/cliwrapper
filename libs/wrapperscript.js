@@ -1,5 +1,7 @@
 var fs = require('fs'),
-    Promise = require('promise');
+    Promise = require('promise'),
+    unescape = require('./unescape.js'),
+    mkDebug = require('debug');
 
 var WrapperScript = function(source, proc, hasStderr) {
   this.sourcePath = source;
@@ -47,11 +49,12 @@ WrapperScript.prototype.onOutData = function (chunk) {
  *                   false if no more lines can be processed, fails with Error.
  */
 WrapperScript.prototype.step = function() {
+  var debug = mkDebug('WrapperScript.prototype.step');
   var self = this;
   return new Promise(function(resolve, failure) {
     if(self.pos < self.source.length) {
       var line = self.source[self.pos++].split(' ');
-      console.log("Processing line " + self.pos + ": " + line.join(' '));
+      debug("Processing line " + self.pos + ": " + line.join(' '));
 
       if(line.length > 1 || line[0].length > 0) {
         try {
@@ -62,7 +65,7 @@ WrapperScript.prototype.step = function() {
           }
         } catch(err) {
           err.message = self.sourcePath + ':' + line[0] + ': ' + err.message;
-          console.log(err.message);
+          debug(err.message);
           failure(err);
         }
       } else {
@@ -88,16 +91,18 @@ WrapperScript.prototype.run = function() {
 };
 
 WrapperScript.prototype.hdlr_sleep = function (line, done) {
+  var debug = mkDebug('WrapperScript.prototype.hdlr_sleep');
   if(line.length != 2) {
     throw new Error('Invalid syntax: SLEEP [num seconds]');
   }
   var seconds = parseFloat(line[1]);
-  console.log('Told to sleep for ' + seconds + ' seconds');
+  debug('Told to sleep for ' + seconds + ' seconds');
 
   setTimeout(done, seconds * 1000);
 };
 
 WrapperScript.prototype.hdlr_type = function (line, done) {
+  var debug = mkDebug('WrapperScript.prototype.hdlr_type');
   if(line.length < 2) {
     throw new Error('Invalid syntax: TYPE [escaped text...]');
   }
@@ -105,11 +110,24 @@ WrapperScript.prototype.hdlr_type = function (line, done) {
 
   text = text.replace(/\\n/g, '\n');
 
-  console.log('Want to type: ' + text);
+  debug('Want to type: ' + text);
 
   this.proc.stdin.write(text);
 
   done();
+};
+
+WrapperScript.prototype.hdlr_sendkey = function (first_argument) {
+  var debug = mkDebug('WrapperScript.prototype.hdlr_sendkey');
+  if(line.length < 2) {
+    throw new Error('Invalid syntax: SENDKEY [key...]');
+  }
+  var keys = line.slice(1);
+
+  keys.forEach(function(key) {
+    debug('Want to send key "' + key + '"');
+    this.proc.stdin.write(unescape(key));
+  });
 };
 
 module.exports = WrapperScript;
