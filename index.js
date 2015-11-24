@@ -1,10 +1,22 @@
 var _pty = require('pty.js').spawn,
-    nopty = require('child_process').execFile,
-    args = require('yargs').argv,
     through = require('through'),
     async = require('async'),
-    tty = require('tty'),
     debug = require('debug')('cliwrapper'),
+    args = require('yargs')
+      .usage('Usage: $0 [--tty] [--start=filename] [--signal=name,filename] -- <command> arguments...')
+      .example('$0 --tty --signal SIGTERM,saveandexit -- vi')
+      .nargs('start', 1)
+      .describe('start', 'Runs a script on program start')
+      .nargs('signal', 1)
+      .array('signal')
+      .default('signal', [])
+      .describe('signal', 'Runs a script upon receiving a signal')
+      .help('h')
+      .alias('h', 'help')
+      .epilog('http://git.ahelper.me/servers/cliwrapper')
+      .argv,
+    nopty = require('child_process').execFile,
+    tty = require('tty'),
     WrapperScript = require('./lib/wrapperscript.js');
 
 // Slight wrapper
@@ -39,7 +51,7 @@ pty = function(file, args) {
 // From src/node.cc
 var NODEJS_SIGNALS = [
   "SIGHUP",
-  "SIGINT"
+  "SIGINT",
   "SIGQUIT",
   "SIGILL",
   "SIGTRAP",
@@ -47,7 +59,7 @@ var NODEJS_SIGNALS = [
   "SIGIOT",
   "SIGBUS",
   "SIGFPE",
-  "SIGKILL",
+  // "SIGKILL",
   "SIGUSR1",
   "SIGSEGV",
   "SIGUSR2",
@@ -56,7 +68,7 @@ var NODEJS_SIGNALS = [
   "SIGCHLD",
   "SIGSTKFLT",
   "SIGCONT",
-  "SIGSTOP",
+  // "SIGSTOP",
   "SIGTSTP",
   "SIGBREAK",
   "SIGTTIN",
@@ -77,57 +89,105 @@ if(tty.isatty(0)) {
   process.stdin.setRawMode(true);
 }
 
-function usage() {
-  console.log('usage: cliwrapper [--tty] [--start startscript.js] [--signal #,signalscript.js] command arguments...');
-  process.exit(1);
-}
-
 if(args._.length == 0) {
   usage();
 }
 
-var proc = (args.tty ? pty : nopty)(args._[0], args._.slice(1));
-var startScript = args.start ? new WrapperScript(args.start, proc, !args.tty) : null;
-args.
+// Start process
+var proc = null;
+try {
+  debug('Starting command "' + args._[0] + '" with arguments ' + args._.slice(1).toString());
+  proc = (args.tty ? pty : nopty)(args._[0], args._.slice(1));
+} catch(err) {
+  console.error("Failed to start command: " + err.message);
+  process.exit(252);
+}
+// Load start script
+var startScript = null;
+if(args.start) {
+  try {
+      debug('Loading start script from "' + args.start + '"');
+      startScript = new WrapperScript(args.start, proc, !args.tty);
+  } catch(err) {
+    console.log("Failed to load start script: " + err.message);
+    process.exit(253);
+  }
+}
+if(startScript) startScript.start();
+// Load signal scripts
+var signalScripts = {};
+args.signal.forEach(function(pair) {
+  var parts = pair.split(',');
 
-proc.on('close', function() {
-  debug('process closed');
+  if(parts.length < 2) {
+    console.error("signal requires 2 arguments");
+    process.exit(254);
+  } else {
+    if(NODEJS_SIGNALS.indexOf(parts[0]) == -1) {
+      console.error('Unknown signal "' + parts[0] + '"');
+      process.exit(254);
+    } else {
+      var signalScript = null;
+      try {
+        debug('Loading signal script for ' + parts[0] + ' from "' + parts.slice(1).join(',') + '"');
+        signalScript = new WrapperScript(parts.slice(1).join(','), proc, !args.tty);
+      } catch(err) {
+        console.log("Failed to load " + parts[0] + " handler: " + err.message);
+        process.exit(253);
+      }
+      signalScripts[parts[0]] = signalScript;
+      // Subscribe to signal event
+      process.on(parts[0], function() {
+        debug('Starting signal script for ' + parts[0]);
+        signalScript.start();
+        signalScript.run().then(function() {
+          signalScript.stop();
+        }, function(err) {
+          debug(err);
+          signalScript.stop();
+        });
+      });
+    }
+  }
+});
+// Pass remaining signals through
+NODEJS_SIGNALS.forEach(function(sig) {
+  if(!signalScripts[sig]) {
+    debug("Adding handler for signal " + sig);
+    process.on(sig, function() {
+      debug('Passing signal ' + sig + ' to process');
+      proc.kill(sig);
+    });
+  }
 });
 
-proc.on('error', function(err) {
-  debug('err: ' + err);
-});
-
-proc.on('disconnect', function() {
-  debug('disconnected');
-});
-
+debug('Subscribing to process events');
+// Catch application exit
 proc.on('exit', function(code, sig) {
-  sig = sig || 0
-  debug('process exited with code ' + code + ' and signal ' + sig);
+  debug('Process ended with exit code ' + code);
   process.exit(code);
 });
 
+// Pass application's stdout through
 proc.stdout.on('data', function(chunk) {
   process.stdout.write(chunk);
 });
 
+// Pass stdin through to application
 process.stdin.on('data', function(chunk) {
-  debug('STDIN:' + chunk);
   proc.stdin.write(chunk);
 })
 
+// If stderr exists, pass through from application
 if(!args.tty) {
   proc.stderr.on('data', function(chunk) {
     process.stderr.write(chunk);
   });
 }
 
+// Run start script if possible
 if(startScript) {
-  debug("Running start script");
   startScript.run().then(function() {
-    debug("Done running start script");
+    startScript.stop();
   });
-
-  startScript.stop();
 }
