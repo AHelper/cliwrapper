@@ -1,2 +1,2 @@
-SLEEP 2
+WAITFOR : 
 TYPE hello world\n

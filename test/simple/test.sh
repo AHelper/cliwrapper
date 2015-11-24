@@ -2,7 +2,7 @@
 
 echo Started
 sleep 1
-echo Enter text:
+echo -n "Enter text: "
 read -e TEST
 echo I read: $TEST
 sleep 1

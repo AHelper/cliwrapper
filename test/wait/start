@@ -1,0 +1,4 @@
+WAITFOR abc
+TYPE 123\n
+WAITFOR abc
+TYPE 456\n
