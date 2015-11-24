@@ -36,6 +36,43 @@ pty = function(file, args) {
   return newpty;
 }
 
+// From src/node.cc
+var NODEJS_SIGNALS = [
+  "SIGHUP",
+  "SIGINT"
+  "SIGQUIT",
+  "SIGILL",
+  "SIGTRAP",
+  "SIGABRT",
+  "SIGIOT",
+  "SIGBUS",
+  "SIGFPE",
+  "SIGKILL",
+  "SIGUSR1",
+  "SIGSEGV",
+  "SIGUSR2",
+  "SIGPIPE",
+  "SIGALRM",
+  "SIGCHLD",
+  "SIGSTKFLT",
+  "SIGCONT",
+  "SIGSTOP",
+  "SIGTSTP",
+  "SIGBREAK",
+  "SIGTTIN",
+  "SIGTTOU",
+  "SIGURG",
+  "SIGXCPU",
+  "SIGXFSZ",
+  "SIGVTALRM",
+  "SIGPROF",
+  "SIGWINCH",
+  "SIGIO",
+  "SIGPOLL",
+  "SIGLOST",
+  "SIGSYS"
+];
+
 if(tty.isatty(0)) {
   process.stdin.setRawMode(true);
 }
@@ -50,11 +87,8 @@ if(args._.length == 0) {
 }
 
 var proc = (args.tty ? pty : nopty)(args._[0], args._.slice(1));
-
-if(args.start) {
-  var startScript = new WrapperScript(args.start, proc, !args.tty);
-  startScript.start();
-}
+var startScript = args.start ? new WrapperScript(args.start, proc, !args.tty) : null;
+args.
 
 proc.on('close', function() {
   debug('process closed');
@@ -89,10 +123,8 @@ if(!args.tty) {
   });
 }
 
-if(args.start) {
+if(startScript) {
   debug("Running start script");
-  var startScript = new WrapperScript(args.start, proc);
-
   startScript.run().then(function() {
     debug("Done running start script");
   });
