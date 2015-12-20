@@ -4,7 +4,7 @@ var _pty = require('pty.js').spawn,
     async = require('async'),
     debug = require('debug')('cliwrapper'),
     args = require('yargs')
-      .usage('Usage: $0 [--tty] [--start=filename] [--signal=name,filename] -- <command> arguments...')
+      .usage('Usage: $0 [--tty] [--start=filename] [--signal=name,filename] -- <command> [arguments...]')
       .example('$0 --tty --signal SIGTERM,saveandexit -- vi')
       .nargs('start', 1)
       .describe('start', 'Runs a script on program start')
