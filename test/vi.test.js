@@ -5,14 +5,6 @@ var mocha = require('mocha'),
     crypto = require('crypto');
 
 describe('vi', function() {
-  after(function(done) {
-    fs.unlink('test.txt', function() {
-      fs.unlink('.swp', function() {
-        done();
-      });
-    });
-  });
-
   before(function(done) {
     fs.unlink('test.txt', function() {
       fs.unlink('.swp', function() {
@@ -23,7 +15,7 @@ describe('vi', function() {
 
   it('shall run the test script', function(done) {
     this.timeout(11000);
-    child_process.exec('node bin/cliwrapper.js --start=test/vi/start -- vi', {
+    child_process.exec('node bin/cliwrapper.js --tty --start=test/vi/start -- vi', {
       timeout: 10000,
       killSignal: 'SIGKILL'
     }, function(err, stdout, stderr) {
