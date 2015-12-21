@@ -1,2 +1,4 @@
-WAITFOR : 
+WAITFOR :
 TYPE hello world\n
+WAITFORREGEXP I read: (.*)
+TYPE done\n

@@ -6,4 +6,5 @@ echo -n "Enter text: "
 read -e TEST
 echo I read: $TEST
 sleep 1
+read -e TEST
 echo DONE
