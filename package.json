@@ -1,6 +1,6 @@
 {
   "name": "cliwrapper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Wraps an interactive CLI application to translate signals into text for the application's stdin",
   "main": "lib/cliwrapper.js",
   "bin": "bin/cliwrapper.js",
