@@ -8,7 +8,35 @@ _Primary supported platform is Linux. Windows support is untested._
 
 For global usage, ensure you have Node.js and NPM and run the following as root:
 
-```# npm install -g cliwrapper```
+```
+# npm install -g cliwrapper
+```
+
+Quickstart
+----------
+There's no time to explain, here's an example!
+```
+./start:
+# Wait for server init
+WAITFOR Listening on port
+WAITFOR :
+# Announce it started
+TYPE say Server started!\n
+
+./sigterm:
+# Hit enter a few times in case some command is being typed
+SENDKEY Enter Enter Enter
+TYPE say Server stopping in 5 seconds!\n
+# Wait 5 seconds
+SLEEP 5
+# Exit safely
+TYPE exit\n
+
+./run-server.sh:
+cliwrapper --tty --start=start --signal=SIGTERM,sigterm -- some-cli-server
+```
+
+This is a quick example was based on running the Terraria dedicated server.  Keep reading for documentation on the wrapper scripts and how to run CLIWrapper!
 
 Usage
 -----
