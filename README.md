@@ -1,5 +1,7 @@
 CLIWrapper
 ==========
+[![Build Status](http://jenkins.ahelper.me/buildStatus/icon?job=tests/master)](http://jenkins.ahelper.me/job/tests/master)
+
 Want to run some services that only run with an interactive CLI but don't want to control them manually? Does the application not shutdown cleanly when terminated? You should wrap it!
 
 Installing
