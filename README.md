@@ -4,7 +4,8 @@ Want to run some services that only run with an interactive CLI but don't want t
 
 Installing
 ----------
-_
+_Primary supported platform is Linux. Windows support is untested._
+
 For global usage, ensure you have Node.js and NPM and run the following as root:
 
 ```# npm install -g cliwrapper```
@@ -73,7 +74,22 @@ A word of caution, trailing/leading spaces are part of the escaped text.  In the
 
 SENDKEY [key ...]
 -----------------
-Writes characters to the wrapped process's stdin.  The characters are generated from a list of space-delimited key names.
+Writes characters to the wrapped process's stdin.  The characters are generated from a list of space-delimited key names.  The following keys are recognized (case-sensative):
+
+* Enter
+* Esc
+* Escape
+* Up
+* Down
+* Left
+* Right
+* Del
+* Delete
+* Backspace
+* Space
+* Tab
+* Ctrl_(A through Z, [, \, ], ~, ?)
+* Ctrl_Space
 
 WAITFOR [escaped text...]
 -------------------------
