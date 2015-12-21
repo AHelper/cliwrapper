@@ -5,14 +5,6 @@ var mocha = require('mocha'),
     crypto = require('crypto');
 
 describe('vi', function() {
-  after(function(done) {
-    // fs.unlink('test.txt', function() {
-      // fs.unlink('.swp', function() {
-        done();
-      // });
-    // });
-  });
-
   before(function(done) {
     fs.unlink('test.txt', function() {
       fs.unlink('.swp', function() {
