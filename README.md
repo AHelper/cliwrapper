@@ -1,6 +1,6 @@
 CLIWrapper
 ==========
-[![Build Status](http://jenkins.ahelper.me/buildStatus/icon?job=tests)](http://jenkins.ahelper.me/job/tests/master) [![NPM Version](https://www.npmjs.com/package/cliwrapper)](https://img.shields.io/npm/v/npm.svg)
+[![Build Status](http://jenkins.ahelper.me/buildStatus/icon?job=tests)](http://jenkins.ahelper.me/job/tests/master) [![NPM Version](https://www.npmjs.com/package/cliwrapper)](https://img.shields.io/npm/v/cliwrapper.svg)
 
 Want to run some services that only run with an interactive CLI but don't want to control them manually? Does the application not shutdown cleanly when terminated? You should wrap it!
 
