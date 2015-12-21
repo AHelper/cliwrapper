@@ -23,7 +23,7 @@ describe('vi', function() {
 
   it('shall run the test script', function(done) {
     this.timeout(11000);
-    child_process.exec('node bin/cliwrapper.js --start=test/vi/start -- vi', {
+    child_process.exec('node bin/cliwrapper.js --tty --start=test/vi/start -- vi', {
       timeout: 10000,
       killSignal: 'SIGKILL'
     }, function(err, stdout, stderr) {
