@@ -1,15 +1,16 @@
 {
   "name": "cliwrapper",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Wraps an interactive CLI application to translate signals into text for the application's stdin",
   "main": "lib/cliwrapper.js",
   "bin": "bin/cliwrapper.js",
   "scripts": {
+    "preversion": "npm test",
     "test": "node node_modules/.bin/mocha test/*.test.js"
   },
   "repository": {
     "type": "git",
-    "url": "git@git.ahelper.me:servers/cliwrapper.git"
+    "url": "git@github.com:AHelper/cliwrapper.git"
   },
   "keywords": [
     "cli",
