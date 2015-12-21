@@ -6,11 +6,11 @@ var mocha = require('mocha'),
 
 describe('vi', function() {
   after(function(done) {
-    fs.unlink('test.txt', function() {
-      fs.unlink('.swp', function() {
+    // fs.unlink('test.txt', function() {
+      // fs.unlink('.swp', function() {
         done();
-      });
-    });
+      // });
+    // });
   });
 
   before(function(done) {
