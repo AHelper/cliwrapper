@@ -5,6 +5,7 @@
   "main": "lib/cliwrapper.js",
   "bin": "bin/cliwrapper.js",
   "scripts": {
+    "preversion": "npm test",
     "test": "node node_modules/.bin/mocha test/*.test.js"
   },
   "repository": {
